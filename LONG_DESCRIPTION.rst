@@ -5,7 +5,7 @@ Amazon Products Scraper
     :target: https://badge.fury.io/py/amazon-scrape
     :alt: amazon-scrape Python Package Version
 
-Scrape Amazon product data such as Product Name, Product Images, Rating Count, and Price.
+Scrape Amazon product data such as Product Name, Product Images, Product URL, Number of Reviews, ASIN, Rating Count, and Price.
 
 Requirements
 ------------
