@@ -29,6 +29,25 @@ Or:
 	$ easy_install amazon-scrape
 
 
+Scraper Help
+------------
+
+Execute this command `amazon_scraper --help` in the terminal.
+
+.. code-block:: text
+
+    usage: amazon_scraper [-h] [--locale LOCALE] [--keywords KEYWORDS] [--url URL] [--proxy_api_key PROXY_API_KEY] [--pages PAGES]
+
+    optional arguments:
+    -h, --help            show this help message and exit
+    --locale LOCALE       Amazon locale (e.g., "com", "co.uk", "de", etc.)
+    --keywords KEYWORDS   Search keywords
+    --url URL             Amazon URL
+    --proxy_api_key PROXY_API_KEY
+                            API Key
+    --pages PAGES         Number of pages to scrape
+
+
 Usage Example
 -------------
 
