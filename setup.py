@@ -5,7 +5,7 @@ from setuptools import setup, find_packages  # noqa: H301
 from distutils.core import Extension
 
 NAME = "amazon_scrape"
-VERSION = "0.0.8"
+VERSION = "0.0.9"
 REQUIRES = ["beautifulsoup4", "requests"]
 
 # read the contents of your README file
@@ -23,7 +23,7 @@ elif 'linux' in sys.platform:
 setup(
     name=NAME,
     version=VERSION,
-    description="Scrape Amazon product data such as Product Name, Product Images, Rating Count, and Price.",
+    description="Scrape Amazon product data such as Product Name, Product Images, Product URL, Number of Reviews, ASIN, Rating Count, and Price.",
     long_description=long_description,
     long_description_content_type="text/x-rst",
     author="Finbarrs Oketunji",
