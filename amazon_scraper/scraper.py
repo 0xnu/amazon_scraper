@@ -41,9 +41,10 @@ class AmazonScraper:
         self.json_file = open('amazon_products.json', 'w')
         self.writer = csv.writer(self.csv_file)
         self.json_data = []
+        self.locale = locale
 
     def start_scraping(self):
-        self.writer.writerow(["product_name", "product_images", "rating_count", "price"])
+        self.writer.writerow(["product_name", "product_images", "rating_count", "price", "product_url", "number_of_reviews", "asin"])
         for page in range(1, self.pages + 1):
             url = self.url + "&page=" + str(page)
             headers = {"User-Agent": random.choice(self.user_agents)}
@@ -80,15 +81,35 @@ class AmazonScraper:
                 else:
                     price = ''
 
+                # Product URL
+                product_url = product.find("a", {"class": "a-link-normal"})
+                if product_url is not None:
+                    product_url = f'https://www.amazon.{self.locale}' + product_url['href']
+                else:
+                    product_url = ''
+
+                # Number of reviews
+                number_of_reviews = product.find("span", {"class": "a-size-base"})
+                if number_of_reviews is not None:
+                    number_of_reviews = number_of_reviews.text
+                else:
+                    number_of_reviews = ''
+
+                # ASIN
+                asin = product_url.split("/dp/")[1].split("/")[0] if "/dp/" in product_url else ''
+
                 # Write to CSV
-                self.writer.writerow([name, ", ".join(images), rating_count, price])
+                self.writer.writerow([name, ", ".join(images), rating_count, price, product_url, number_of_reviews, asin])
 
                 # Add to JSON data
                 self.json_data.append({
                     "product_name": name,
                     "product_images": images,
                     "rating_count": rating_count,
-                    "price": price
+                    "price": price,
+                    "product_url": product_url,
+                    "number_of_reviews": number_of_reviews,
+                    "asin": asin
                 })
 
         json.dump(self.json_data, self.json_file, indent=4)
