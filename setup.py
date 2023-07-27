@@ -5,7 +5,7 @@ from setuptools import setup, find_packages  # noqa: H301
 from distutils.core import Extension
 
 NAME = "amazon_scrape"
-VERSION = "0.0.9"
+VERSION = "1.0.0"
 REQUIRES = ["beautifulsoup4", "requests"]
 
 # read the contents of your README file
