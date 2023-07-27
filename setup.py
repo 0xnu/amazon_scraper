@@ -23,7 +23,7 @@ elif 'linux' in sys.platform:
 setup(
     name=NAME,
     version=VERSION,
-    description="Scrape Amazon product data such as Product Name, Product Images, Product URL, Number of Reviews, ASIN, Rating Count, and Price.",
+    description="Scrape Amazon product data such as Product Name, Product Images, Product URL, Number of Reviews, ASIN, and Price.",
     long_description=long_description,
     long_description_content_type="text/x-rst",
     author="Finbarrs Oketunji",

@@ -44,7 +44,7 @@ class AmazonScraper:
         self.locale = locale
 
     def start_scraping(self):
-        self.writer.writerow(["product_name", "product_images", "rating_count", "price", "product_url", "number_of_reviews", "asin"])
+        self.writer.writerow(["product_name", "product_images", "price", "product_url", "number_of_reviews", "asin"])
         for page in range(1, self.pages + 1):
             url = self.url + "&page=" + str(page)
             headers = {"User-Agent": random.choice(self.user_agents)}
@@ -66,13 +66,6 @@ class AmazonScraper:
                     images = [image['src'] for image in images]
                 else:
                     images = []
-
-                # Rating count
-                rating_count = product.find("span", {"class": "a-size-base"})
-                if rating_count is not None:
-                    rating_count = rating_count.text
-                else:
-                    rating_count = ''
 
                 # Price
                 price = product.find("span", {"class": "a-offscreen"})
@@ -99,13 +92,12 @@ class AmazonScraper:
                 asin = product_url.split("/dp/")[1].split("/")[0] if "/dp/" in product_url else ''
 
                 # Write to CSV
-                self.writer.writerow([name, ", ".join(images), rating_count, price, product_url, number_of_reviews, asin])
+                self.writer.writerow([name, ", ".join(images), price, product_url, number_of_reviews, asin])
 
                 # Add to JSON data
                 self.json_data.append({
                     "product_name": name,
                     "product_images": images,
-                    "rating_count": rating_count,
                     "price": price,
                     "product_url": product_url,
                     "number_of_reviews": number_of_reviews,
