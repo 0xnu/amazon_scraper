@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/amazon-scrape.svg)](https://badge.fury.io/py/amazon-scrape)
 
-Scrape Amazon product data such as Product Name, Product Images, Product URL, Number of Reviews, ASIN, and Price.
+Scrape Amazon product data such as Product Name, Product Images, Number of Reviews, Price, Product URL, and ASIN.
 
 ## Requirements
 
