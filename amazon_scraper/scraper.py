@@ -29,7 +29,7 @@ class AmazonScraper:
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0"
     ]
 
-    def __init__(self, locale="co.uk", keyword=None, url=None, api_key=None, pages=20):
+    def __init__(self, locale="co.uk", keyword=None, url=None, api_key=None, pages=20, review=False):
         base_url = f"https://www.amazon.{locale}/s"
         if keyword:
             self.url = f"http://api.scraperapi.com?api_key={api_key}&url={base_url}?k={keyword}"
@@ -37,14 +37,21 @@ class AmazonScraper:
             self.url = f"http://api.scraperapi.com?api_key={api_key}&url={url}"
         self.api_key = api_key
         self.pages = pages
-        self.csv_file = open('amazon_products.csv', 'w', newline='')
-        self.json_file = open('amazon_products.json', 'w')
-        self.writer = csv.writer(self.csv_file)
-        self.json_data = []
+        self.review = review
+        self.product_csv_file = open('amazon_products.csv', 'w', newline='')
+        self.product_json_file = open('amazon_products.json', 'w')
+        self.review_csv_file = open('amazon_reviews.csv', 'w', newline='') if review else None
+        self.review_json_file = open('amazon_reviews.json', 'w') if review else None
+        self.product_writer = csv.writer(self.product_csv_file)
+        self.review_writer = csv.writer(self.review_csv_file) if review else None
+        self.product_json_data = []
+        self.review_json_data = []
         self.locale = locale
 
     def start_scraping(self):
-        self.writer.writerow(["product_name", "product_images", "number_of_reviews", "price", "product_url", "asin"])
+        self.product_writer.writerow(["product_name", "product_images", "number_of_reviews", "price", "product_url", "asin"])
+        if self.review:
+            self.review_writer.writerow(["product_name", "product_reviews", "product_url", "asin"])
         for page in range(1, self.pages + 1):
             url = self.url + "&page=" + str(page)
             headers = {"User-Agent": random.choice(self.user_agents)}
@@ -92,10 +99,10 @@ class AmazonScraper:
                 asin = product_url.split("/dp/")[1].split("/")[0] if "/dp/" in product_url else ''
 
                 # Write to CSV
-                self.writer.writerow([name, ", ".join(images), number_of_reviews, price, product_url, asin])
+                self.product_writer.writerow([name, ", ".join(images), number_of_reviews, price, product_url, asin])
 
                 # Add to JSON data
-                self.json_data.append({
+                self.product_json_data.append({
                     "product_name": name,
                     "product_images": images,
                     "number_of_reviews": number_of_reviews,
@@ -104,11 +111,37 @@ class AmazonScraper:
                     "asin": asin
                 })
 
-        json.dump(self.json_data, self.json_file, indent=4)
+                # Product reviews
+                if self.review:
+                    product_reviews = []
+                    review_url = f'https://www.amazon.{self.locale}/product-reviews/{asin}'
+                    review_response = requests.get(review_url, headers=headers)
+                    review_soup = BeautifulSoup(review_response.content, "html.parser")
+                    reviews = review_soup.find_all("span", {"data-hook": "review-body"})
+                    for review in reviews:
+                        product_reviews.append(review.text.strip())
+
+                    # Write to CSV
+                    self.review_writer.writerow([name, ", ".join(product_reviews), product_url, asin])
+
+                    # Add to JSON data
+                    self.review_json_data.append({
+                        "product_name": name,
+                        "product_reviews": product_reviews,
+                        "product_url": product_url,
+                        "asin": asin
+                    })
+
+        json.dump(self.product_json_data, self.product_json_file, indent=4)
+        if self.review:
+            json.dump(self.review_json_data, self.review_json_file, indent=4)
 
     def close_files(self):
-        self.csv_file.close()
-        self.json_file.close()
+        self.product_csv_file.close()
+        self.product_json_file.close()
+        if self.review:
+            self.review_csv_file.close()
+            self.review_json_file.close()
 
 def main():
     parser = argparse.ArgumentParser()
@@ -117,9 +150,10 @@ def main():
     parser.add_argument('--url', type=str, help='Amazon URL')
     parser.add_argument('--proxy_api_key', type=str, help='API Key')
     parser.add_argument('--pages', type=int, default=20, help='Number of pages to scrape')
+    parser.add_argument('-r', '--review', action='store_true', help='Scrape reviews')
     args = parser.parse_args()
 
-    scraper = AmazonScraper(args.locale, args.keywords, args.url, args.proxy_api_key, args.pages)
+    scraper = AmazonScraper(args.locale, args.keywords, args.url, args.proxy_api_key, args.pages, args.review)
     scraper.start_scraping()
     scraper.close_files()
 

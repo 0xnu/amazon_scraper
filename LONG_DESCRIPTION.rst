@@ -45,6 +45,7 @@ Execute this command `amazon_scraper --help` in the terminal.
     --url URL             Amazon URL
     --proxy_api_key       Scraper API Key
     --pages PAGES         Number of pages to scrape
+    -r, --review          Scrape reviews
 
 
 Usage Example
@@ -52,7 +53,7 @@ Usage Example
 
 .. code-block:: python
 
-    ## Specify locale, keywords, API key, and number of pages to scrape
+    # Specify locale, keywords, API key, and number of pages to scrape:
     amazon_scraper --locale com --keywords "laptop" --proxy_api_key "your_api_key" --pages 10
 
     ## Specify only keywords and API key (will default to "co.uk" locale and 20 pages):
@@ -63,6 +64,9 @@ Usage Example
 
     ## Specify locale and Amazon URL (will default to 20 pages):
     amazon_scraper --locale de --url "https://www.amazon.de/s?k=iphone&crid=1OHYY6U6OGCK5&sprefix=ipho%2Caps%2C335&ref=nb_sb_noss_2" --proxy_api_key "your_api_key"
+
+    ## Specify review to scrape product(s) reviews:
+    amazon_scraper --keywords "watches" --proxy_api_key "your_api_key --review
 
 
 Create Scraper API Account
