@@ -44,7 +44,7 @@ class AmazonScraper:
         self.locale = locale
 
     def start_scraping(self):
-        self.writer.writerow(["product_name", "product_images", "price", "product_url", "number_of_reviews", "asin"])
+        self.writer.writerow(["product_name", "product_images", "number_of_reviews", "price", "product_url", "asin"])
         for page in range(1, self.pages + 1):
             url = self.url + "&page=" + str(page)
             headers = {"User-Agent": random.choice(self.user_agents)}
@@ -67,6 +67,13 @@ class AmazonScraper:
                 else:
                     images = []
 
+                # Number of Reviews
+                number_of_reviews = product.find("span", {"class": "a-size-base"})
+                if number_of_reviews is not None:
+                    number_of_reviews = number_of_reviews.text
+                else:
+                    number_of_reviews = ''
+
                 # Price
                 price = product.find("span", {"class": "a-offscreen"})
                 if price is not None:
@@ -81,26 +88,19 @@ class AmazonScraper:
                 else:
                     product_url = ''
 
-                # Number of reviews
-                number_of_reviews = product.find("span", {"class": "a-size-base"})
-                if number_of_reviews is not None:
-                    number_of_reviews = number_of_reviews.text
-                else:
-                    number_of_reviews = ''
-
                 # ASIN
                 asin = product_url.split("/dp/")[1].split("/")[0] if "/dp/" in product_url else ''
 
                 # Write to CSV
-                self.writer.writerow([name, ", ".join(images), price, product_url, number_of_reviews, asin])
+                self.writer.writerow([name, ", ".join(images), number_of_reviews, price, product_url, asin])
 
                 # Add to JSON data
                 self.json_data.append({
                     "product_name": name,
                     "product_images": images,
+                    "number_of_reviews": number_of_reviews,
                     "price": price,
                     "product_url": product_url,
-                    "number_of_reviews": number_of_reviews,
                     "asin": asin
                 })
 
