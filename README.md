@@ -30,7 +30,7 @@ python setup.py install --user
 Execute this command `amazon_scraper --help` in the terminal.
 
 ```text
-usage: amazon_scraper [-h] [--locale LOCALE] [--keywords KEYWORDS] [--url URL] [--proxy_api_key PROXY_API_KEY] [--pages PAGES]
+usage: amazon.py [-h] [--locale LOCALE] [--keywords KEYWORDS] [--url URL] [--proxy_api_key PROXY_API_KEY] [--pages PAGES] [-r]
 
 optional arguments:
   -h, --help            show this help message and exit
