@@ -4,6 +4,7 @@ import csv
 import json
 import random
 import argparse
+from tqdm import tqdm
 
 class AmazonScraper:
     user_agents = [
@@ -52,7 +53,7 @@ class AmazonScraper:
         self.product_writer.writerow(["product_name", "product_images", "number_of_reviews", "price", "product_url", "asin"])
         if self.review:
             self.review_writer.writerow(["product_name", "product_reviews", "product_url", "asin"])
-        for page in range(1, self.pages + 1):
+        for page in tqdm(range(1, self.pages + 1), desc="Scraping Pages"):
             url = self.url + "&page=" + str(page)
             headers = {"User-Agent": random.choice(self.user_agents)}
             response = requests.get(url, headers=headers)
@@ -60,48 +61,40 @@ class AmazonScraper:
             products = soup.find_all("div", {"class": "sg-col-inner"})
 
             for product in products:
-                # Product name
                 name = product.find("span", {"class": "a-size-medium a-color-base a-text-normal"})
                 if name is not None:
                     name = name.text
                 else:
-                    continue  # Skip if no product name
+                    continue
 
-                # Product images
                 images = product.find_all("img", {"class": "s-image"})
                 if images is not None:
                     images = [image['src'] for image in images]
                 else:
                     images = []
 
-                # Number of Reviews
                 number_of_reviews = product.find("span", {"class": "a-size-base"})
                 if number_of_reviews is not None:
                     number_of_reviews = number_of_reviews.text
                 else:
                     number_of_reviews = ''
 
-                # Price
                 price = product.find("span", {"class": "a-offscreen"})
                 if price is not None:
                     price = price.text
                 else:
                     price = ''
 
-                # Product URL
                 product_url = product.find("a", {"class": "a-link-normal"})
                 if product_url is not None:
                     product_url = f'https://www.amazon.{self.locale}' + product_url['href']
                 else:
                     product_url = ''
 
-                # ASIN
                 asin = product_url.split("/dp/")[1].split("/")[0] if "/dp/" in product_url else ''
 
-                # Write to CSV
                 self.product_writer.writerow([name, ", ".join(images), number_of_reviews, price, product_url, asin])
 
-                # Add to JSON data
                 self.product_json_data.append({
                     "product_name": name,
                     "product_images": images,
@@ -111,7 +104,6 @@ class AmazonScraper:
                     "asin": asin
                 })
 
-                # Product reviews
                 if self.review:
                     product_reviews = []
                     review_url = f'https://www.amazon.{self.locale}/product-reviews/{asin}'
@@ -121,10 +113,8 @@ class AmazonScraper:
                     for review in reviews:
                         product_reviews.append(review.text.strip())
 
-                    # Write to CSV
                     self.review_writer.writerow([name, ", ".join(product_reviews), product_url, asin])
 
-                    # Add to JSON data
                     self.review_json_data.append({
                         "product_name": name,
                         "product_reviews": product_reviews,
