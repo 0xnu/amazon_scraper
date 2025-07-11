@@ -4,7 +4,7 @@ from os import path
 from setuptools import setup, find_packages
 
 NAME = "amazon_scrape"
-VERSION = "1.0.8"
+VERSION = "1.0.9"
 REQUIRES = ["beautifulsoup4", "requests"]
 
 # read the contents of your README file
