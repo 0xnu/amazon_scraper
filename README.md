@@ -37,7 +37,7 @@ optional arguments:
   --locale LOCALE       Amazon locale (e.g., "com", "co.uk", "de", etc.)
   --keywords KEYWORDS   Search keywords
   --url URL             Amazon URL
-  --api-key       Scraper API Key
+  --api-key             Scraper API Key
   --pages PAGES         Number of pages to scrape
   -r, --review          Scrape reviews
 ```
