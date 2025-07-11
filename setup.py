@@ -1,15 +1,13 @@
 # coding: utf-8
-
 import sys
-from setuptools import setup, find_packages  # noqa: H301
-from distutils.core import Extension
+from os import path
+from setuptools import setup, find_packages
 
 NAME = "amazon_scrape"
-VERSION = "1.0.6"
+VERSION = "1.0.8"
 REQUIRES = ["beautifulsoup4", "requests"]
 
 # read the contents of your README file
-from os import path
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'LONG_DESCRIPTION.rst')) as f:
     long_description = f.read()

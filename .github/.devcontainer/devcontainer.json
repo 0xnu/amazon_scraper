@@ -1,0 +1,31 @@
+{
+	"name": "Data Analysis Environment",
+	"image": "mcr.microsoft.com/devcontainers/python:3",
+	"features": {
+	  "ghcr.io/devcontainers/features/common-utils:2": {
+		"installZsh": true,
+		"username": "vscode",
+		"upgradePackages": true
+	  },
+	  "ghcr.io/devcontainers/features/mysql:1": {},
+	  "ghcr.io/devcontainers/features/oracle-client:1": {},
+	  "ghcr.io/devcontainers/features/aws-cli:1": {}
+	},
+	"customizations": {
+	  "vscode": {
+		"extensions": [
+		  "mtxr.sqltools",
+		  "mtxr.sqltools-driver-mysql",
+		  "oracle.oracle-sql",
+		  "eamodio.gitlens",
+		  "GitHub.copilot",
+		  "ms-python.python",
+		  "ms-toolsai.jupyter",
+		  "ms-python.vscode-pylance"
+		]
+	  }
+	},
+	"forwardPorts": [3306, 8888],
+	"postCreateCommand": "pip install -r requirements.txt && sudo apt-get update && sudo apt-get install -y mysql-client default-libmysqlclient-dev",
+	"remoteUser": "vscode"
+}

@@ -88,7 +88,7 @@ This project is licensed under the `MIT License`_.
 Copyright
 ---------
 
-Copyright |copy| 2023 `Finbarrs Oketunji`_. All Rights Reserved.
+Copyright |copy| 2023 - 2025 `Finbarrs Oketunji`_. All Rights Reserved.
 
 .. |copy| unicode:: 0xA9 .. copyright sign
 .. _Finbarrs Oketunji: https://finbarrs.eu

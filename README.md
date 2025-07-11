@@ -73,4 +73,4 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ## Copyright
 
-(c) 2023 [Finbarrs Oketunji](https://finbarrs.eu). All Rights Reserved.
+(c) 2023 - 2025 [Finbarrs Oketunji](https://finbarrs.eu). All Rights Reserved.
