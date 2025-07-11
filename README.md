@@ -30,14 +30,14 @@ python setup.py install --user
 Execute this command `amazon_scraper --help` in the terminal.
 
 ```text
-usage: amazon_scraper [-h] [--locale LOCALE] [--keywords KEYWORDS] [--url URL] [--proxy_api_key PROXY_API_KEY] [--pages PAGES] [-r]
+usage: amazon_scraper [-h] [--locale LOCALE] [--keywords KEYWORDS] [--url URL] [--api-key PROXY_API_KEY] [--pages PAGES] [-r]
 
 optional arguments:
   -h, --help            show this help message and exit
   --locale LOCALE       Amazon locale (e.g., "com", "co.uk", "de", etc.)
   --keywords KEYWORDS   Search keywords
   --url URL             Amazon URL
-  --proxy_api_key       Scraper API Key
+  --api-key       Scraper API Key
   --pages PAGES         Number of pages to scrape
   -r, --review          Scrape reviews
 ```
@@ -46,19 +46,19 @@ optional arguments:
 
 ```python
 # Specify locale, keywords, API key, and number of pages to scrape:
-amazon_scraper --locale com --keywords "laptop" --proxy_api_key "your_api_key" --pages 10
+amazon_scraper --locale com --keywords "laptop" --api-key "your_api_key" --pages 10
 
 ## Specify only keywords and API key (will default to "co.uk" locale and 20 pages):
-amazon_scraper --keywords "iphone" --proxy_api_key "your_api_key"
+amazon_scraper --keywords "iphone" --api-key "your_api_key"
 
 ## Specify a direct Amazon URL and API key (will default to "co.uk" locale and 20 pages):
-amazon_scraper --url "https://www.amazon.de/s?k=iphone&crid=1OHYY6U6OGCK5&sprefix=ipho%2Caps%2C335&ref=nb_sb_noss_2" --proxy_api_key "your_api_key"
+amazon_scraper --url "https://www.amazon.de/s?k=iphone&crid=1OHYY6U6OGCK5&sprefix=ipho%2Caps%2C335&ref=nb_sb_noss_2" --api-key "your_api_key"
 
 ## Specify locale and Amazon URL (will default to 20 pages):
-amazon_scraper --locale de --url "https://www.amazon.de/s?k=iphone&crid=1OHYY6U6OGCK5&sprefix=ipho%2Caps%2C335&ref=nb_sb_noss_2" --proxy_api_key "your_api_key"
+amazon_scraper --locale de --url "https://www.amazon.de/s?k=iphone&crid=1OHYY6U6OGCK5&sprefix=ipho%2Caps%2C335&ref=nb_sb_noss_2" --api-key "your_api_key"
 
 ## Specify review to scrape product(s) reviews:
-amazon_scraper --keywords "watches" --proxy_api_key "your_api_key --review
+amazon_scraper --keywords "watches" --api-key "your_api_key --review
 ```
 
 ## Create Scraper API Account
